@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qianfeng.dao.CustomerMapper">
+  <resultMap id="BaseResultMap" type="com.qianfeng.po.Customer">
+    <id column="cus_id" jdbcType="INTEGER" property="cusId" />
+    <result column="cus_name" jdbcType="VARCHAR" property="cusName" />
+    <result column="cus_password" jdbcType="VARCHAR" property="cusPassword" />
+    <result column="cus_birthday" jdbcType="DATE" property="cusBirthday" />
+    <result column="cus_age" jdbcType="INTEGER" property="cusAge" />
+    <result column="cus_phone" jdbcType="BIGINT" property="cusPhone" />
+    <result column="cus_address" jdbcType="VARCHAR" property="cusAddress" />
+    <result column="cus_efficacy" jdbcType="TINYINT" property="cusEfficacy" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    cus_id, cus_name, cus_password, cus_birthday, cus_age, cus_phone, cus_address, cus_efficacy
+  </sql>
+  <select id="selectByExample" parameterType="com.qianfeng.po.CustomerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from customer
+    where cus_id = #{cusId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer
+    where cus_id = #{cusId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qianfeng.po.CustomerExample">
+    delete from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.po.Customer">
+    insert into customer (cus_id, cus_name, cus_password, 
+      cus_birthday, cus_age, cus_phone, 
+      cus_address, cus_efficacy)
+    values (#{cusId,jdbcType=INTEGER}, #{cusName,jdbcType=VARCHAR}, #{cusPassword,jdbcType=VARCHAR}, 
+      #{cusBirthday,jdbcType=DATE}, #{cusAge,jdbcType=INTEGER}, #{cusPhone,jdbcType=BIGINT}, 
+      #{cusAddress,jdbcType=VARCHAR}, #{cusEfficacy,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianfeng.po.Customer">
+    insert into customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cusId != null">
+        cus_id,
+      </if>
+      <if test="cusName != null">
+        cus_name,
+      </if>
+      <if test="cusPassword != null">
+        cus_password,
+      </if>
+      <if test="cusBirthday != null">
+        cus_birthday,
+      </if>
+      <if test="cusAge != null">
+        cus_age,
+      </if>
+      <if test="cusPhone != null">
+        cus_phone,
+      </if>
+      <if test="cusAddress != null">
+        cus_address,
+      </if>
+      <if test="cusEfficacy != null">
+        cus_efficacy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cusId != null">
+        #{cusId,jdbcType=INTEGER},
+      </if>
+      <if test="cusName != null">
+        #{cusName,jdbcType=VARCHAR},
+      </if>
+      <if test="cusPassword != null">
+        #{cusPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="cusBirthday != null">
+        #{cusBirthday,jdbcType=DATE},
+      </if>
+      <if test="cusAge != null">
+        #{cusAge,jdbcType=INTEGER},
+      </if>
+      <if test="cusPhone != null">
+        #{cusPhone,jdbcType=BIGINT},
+      </if>
+      <if test="cusAddress != null">
+        #{cusAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cusEfficacy != null">
+        #{cusEfficacy,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qianfeng.po.CustomerExample" resultType="java.lang.Integer">
+    select count(*) from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update customer
+    <set>
+      <if test="record.cusId != null">
+        cus_id = #{record.cusId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cusName != null">
+        cus_name = #{record.cusName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cusPassword != null">
+        cus_password = #{record.cusPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cusBirthday != null">
+        cus_birthday = #{record.cusBirthday,jdbcType=DATE},
+      </if>
+      <if test="record.cusAge != null">
+        cus_age = #{record.cusAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.cusPhone != null">
+        cus_phone = #{record.cusPhone,jdbcType=BIGINT},
+      </if>
+      <if test="record.cusAddress != null">
+        cus_address = #{record.cusAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cusEfficacy != null">
+        cus_efficacy = #{record.cusEfficacy,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update customer
+    set cus_id = #{record.cusId,jdbcType=INTEGER},
+      cus_name = #{record.cusName,jdbcType=VARCHAR},
+      cus_password = #{record.cusPassword,jdbcType=VARCHAR},
+      cus_birthday = #{record.cusBirthday,jdbcType=DATE},
+      cus_age = #{record.cusAge,jdbcType=INTEGER},
+      cus_phone = #{record.cusPhone,jdbcType=BIGINT},
+      cus_address = #{record.cusAddress,jdbcType=VARCHAR},
+      cus_efficacy = #{record.cusEfficacy,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianfeng.po.Customer">
+    update customer
+    <set>
+      <if test="cusName != null">
+        cus_name = #{cusName,jdbcType=VARCHAR},
+      </if>
+      <if test="cusPassword != null">
+        cus_password = #{cusPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="cusBirthday != null">
+        cus_birthday = #{cusBirthday,jdbcType=DATE},
+      </if>
+      <if test="cusAge != null">
+        cus_age = #{cusAge,jdbcType=INTEGER},
+      </if>
+      <if test="cusPhone != null">
+        cus_phone = #{cusPhone,jdbcType=BIGINT},
+      </if>
+      <if test="cusAddress != null">
+        cus_address = #{cusAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cusEfficacy != null">
+        cus_efficacy = #{cusEfficacy,jdbcType=TINYINT},
+      </if>
+    </set>
+    where cus_id = #{cusId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianfeng.po.Customer">
+    update customer
+    set cus_name = #{cusName,jdbcType=VARCHAR},
+      cus_password = #{cusPassword,jdbcType=VARCHAR},
+      cus_birthday = #{cusBirthday,jdbcType=DATE},
+      cus_age = #{cusAge,jdbcType=INTEGER},
+      cus_phone = #{cusPhone,jdbcType=BIGINT},
+      cus_address = #{cusAddress,jdbcType=VARCHAR},
+      cus_efficacy = #{cusEfficacy,jdbcType=TINYINT}
+    where cus_id = #{cusId,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.qianfeng.po.Customer">
+    <id column="cus_id" jdbcType="INTEGER" property="cusId" />
+    <result column="cus_name" jdbcType="VARCHAR" property="cusName" />
+    <result column="cus_password" jdbcType="VARCHAR" property="cusPassword" />
+    <result column="cus_birthday" jdbcType="DATE" property="cusBirthday" />
+    <result column="cus_age" jdbcType="INTEGER" property="cusAge" />
+    <result column="cus_phone" jdbcType="BIGINT" property="cusPhone" />
+    <result column="cus_address" jdbcType="VARCHAR" property="cusAddress" />
+    <result column="cus_efficacy" jdbcType="TINYINT" property="cusEfficacy" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    cus_id, cus_name, cus_password, cus_birthday, cus_age, cus_phone, cus_address, cus_efficacy
+  </sql>
+  <select id="selectByExample" parameterType="com.qianfeng.po.CustomerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from customer
+    where cus_id = #{cusId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer
+    where cus_id = #{cusId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qianfeng.po.CustomerExample">
+    delete from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qianfeng.po.Customer">
+    insert into customer (cus_id, cus_name, cus_password, 
+      cus_birthday, cus_age, cus_phone, 
+      cus_address, cus_efficacy)
+    values (#{cusId,jdbcType=INTEGER}, #{cusName,jdbcType=VARCHAR}, #{cusPassword,jdbcType=VARCHAR}, 
+      #{cusBirthday,jdbcType=DATE}, #{cusAge,jdbcType=INTEGER}, #{cusPhone,jdbcType=BIGINT}, 
+      #{cusAddress,jdbcType=VARCHAR}, #{cusEfficacy,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qianfeng.po.Customer">
+    insert into customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cusId != null">
+        cus_id,
+      </if>
+      <if test="cusName != null">
+        cus_name,
+      </if>
+      <if test="cusPassword != null">
+        cus_password,
+      </if>
+      <if test="cusBirthday != null">
+        cus_birthday,
+      </if>
+      <if test="cusAge != null">
+        cus_age,
+      </if>
+      <if test="cusPhone != null">
+        cus_phone,
+      </if>
+      <if test="cusAddress != null">
+        cus_address,
+      </if>
+      <if test="cusEfficacy != null">
+        cus_efficacy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cusId != null">
+        #{cusId,jdbcType=INTEGER},
+      </if>
+      <if test="cusName != null">
+        #{cusName,jdbcType=VARCHAR},
+      </if>
+      <if test="cusPassword != null">
+        #{cusPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="cusBirthday != null">
+        #{cusBirthday,jdbcType=DATE},
+      </if>
+      <if test="cusAge != null">
+        #{cusAge,jdbcType=INTEGER},
+      </if>
+      <if test="cusPhone != null">
+        #{cusPhone,jdbcType=BIGINT},
+      </if>
+      <if test="cusAddress != null">
+        #{cusAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cusEfficacy != null">
+        #{cusEfficacy,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qianfeng.po.CustomerExample" resultType="java.lang.Integer">
+    select count(*) from customer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update customer
+    <set>
+      <if test="record.cusId != null">
+        cus_id = #{record.cusId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cusName != null">
+        cus_name = #{record.cusName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cusPassword != null">
+        cus_password = #{record.cusPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cusBirthday != null">
+        cus_birthday = #{record.cusBirthday,jdbcType=DATE},
+      </if>
+      <if test="record.cusAge != null">
+        cus_age = #{record.cusAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.cusPhone != null">
+        cus_phone = #{record.cusPhone,jdbcType=BIGINT},
+      </if>
+      <if test="record.cusAddress != null">
+        cus_address = #{record.cusAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cusEfficacy != null">
+        cus_efficacy = #{record.cusEfficacy,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update customer
+    set cus_id = #{record.cusId,jdbcType=INTEGER},
+      cus_name = #{record.cusName,jdbcType=VARCHAR},
+      cus_password = #{record.cusPassword,jdbcType=VARCHAR},
+      cus_birthday = #{record.cusBirthday,jdbcType=DATE},
+      cus_age = #{record.cusAge,jdbcType=INTEGER},
+      cus_phone = #{record.cusPhone,jdbcType=BIGINT},
+      cus_address = #{record.cusAddress,jdbcType=VARCHAR},
+      cus_efficacy = #{record.cusEfficacy,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qianfeng.po.Customer">
+    update customer
+    <set>
+      <if test="cusName != null">
+        cus_name = #{cusName,jdbcType=VARCHAR},
+      </if>
+      <if test="cusPassword != null">
+        cus_password = #{cusPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="cusBirthday != null">
+        cus_birthday = #{cusBirthday,jdbcType=DATE},
+      </if>
+      <if test="cusAge != null">
+        cus_age = #{cusAge,jdbcType=INTEGER},
+      </if>
+      <if test="cusPhone != null">
+        cus_phone = #{cusPhone,jdbcType=BIGINT},
+      </if>
+      <if test="cusAddress != null">
+        cus_address = #{cusAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="cusEfficacy != null">
+        cus_efficacy = #{cusEfficacy,jdbcType=TINYINT},
+      </if>
+    </set>
+    where cus_id = #{cusId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qianfeng.po.Customer">
+    update customer
+    set cus_name = #{cusName,jdbcType=VARCHAR},
+      cus_password = #{cusPassword,jdbcType=VARCHAR},
+      cus_birthday = #{cusBirthday,jdbcType=DATE},
+      cus_age = #{cusAge,jdbcType=INTEGER},
+      cus_phone = #{cusPhone,jdbcType=BIGINT},
+      cus_address = #{cusAddress,jdbcType=VARCHAR},
+      cus_efficacy = #{cusEfficacy,jdbcType=TINYINT}
+    where cus_id = #{cusId,jdbcType=INTEGER}
+  </update>
+</mapper>
